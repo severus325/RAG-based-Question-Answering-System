@@ -15,10 +15,10 @@
 QWEN_API_URL=
 QWEN_API_KEY=
 QWEN_MODEL=qwen3.5-flash
-MODEL_PYTHON_BIN=/data/shaopengyang/miniconda3/bin/python
+MODEL_PYTHON_BIN=
 ENABLE_RAG=true
-EMBEDDING_MODEL_PATH=/data/xiaomin/rag_expert/model/bge-m3
-RERANK_MODEL_PATH=/data/xiaomin/rag_expert/model/bge-reranker-v2-m3
+EMBEDDING_MODEL_PATH=
+RERANK_MODEL_PATH=
 ```
 
 参数名就是：
