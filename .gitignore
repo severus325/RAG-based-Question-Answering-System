@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+data/index/index.json
+data/index/*_vectors.npy
+uploads/

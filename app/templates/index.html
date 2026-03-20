@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>基于RAG的AI问答系统</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <section class="overview-card">
+        <div class="overview-copy">
+          <p class="eyebrow">RAG SYSTEM</p>
+          <h1>基于大模型的知识库问答系统</h1>
+          <p class="muted">
+            以知识库检索为核心，结合本地 Embedding、FAISS、Rerank 与 Qwen API 的智能问答工作台。
+          </p>
+        </div>
+        <div class="overview-grid">
+          <div class="metric-tile">
+            <span>模型</span>
+            <strong>{{ model_name }}</strong>
+          </div>
+          <div class="metric-tile">
+            <span>文档目录</span>
+            <strong class="truncate">{{ docs_dir }}</strong>
+          </div>
+          <div class="metric-tile">
+            <span>工作流</span>
+            <strong>Embedding + FAISS + Rerank</strong>
+          </div>
+        </div>
+      </section>
+
+      <div class="workspace-grid">
+        <aside class="side-panel">
+          <section class="panel-card">
+            <div class="section-head">
+              <div>
+                <p class="section-tag">Control</p>
+                <h2>系统控制台</h2>
+              </div>
+              <button id="reindexBtn" class="ghost-btn">重建索引</button>
+            </div>
+
+            <div class="status-stack">
+              <div class="surface-block">
+                <div class="block-head">
+                  <span class="block-title">知识库状态</span>
+                </div>
+                <div id="docStatus" class="status-box">正在读取索引状态...</div>
+              </div>
+
+              <div class="surface-block">
+                <div class="block-head">
+                  <span class="block-title">RAG 开关</span>
+                  <button id="ragToggleBtn" class="ghost-btn small-btn">读取中</button>
+                </div>
+                <div id="ragStatus" class="status-box compact-status">正在读取 RAG 状态...</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel-card">
+            <div class="section-head narrow-head">
+              <div>
+                <p class="section-tag">Documents</p>
+                <h2>文档管理</h2>
+              </div>
+            </div>
+
+            <form id="uploadForm" class="upload-form">
+              <label class="field-label" for="uploadFile">上传文档</label>
+              <input id="uploadFile" name="file" type="file" accept=".md,.txt,.pdf,.docx" required />
+              <div class="actions align-left">
+                <button type="submit" class="primary-btn">上传并重建索引</button>
+              </div>
+            </form>
+
+            <div id="uploadStatus" class="upload-status">支持 `.md`、`.txt`、`.pdf`、`.docx`。</div>
+            <div id="documentList" class="document-list"></div>
+          </section>
+        </aside>
+
+        <main class="chat-panel">
+          <section class="panel-card chat-card">
+            <div class="chat-header">
+              <div>
+                <p class="section-tag">Ask</p>
+                <h2>文档问答与知识检索</h2>
+              </div>
+              <p class="muted chat-note">问题会先走检索链路，再由模型生成基于资料的回答。</p>
+            </div>
+
+            <div id="messages" class="messages">
+              <article class="message assistant">
+                <div class="message-label">系统</div>
+                <div class="message-body">先把资料放进 `data/documents/`，再点一次“重建索引”。</div>
+              </article>
+            </div>
+
+            <form id="chatForm" class="composer">
+              <div class="composer-main">
+                <label class="field-label" for="question">问题</label>
+                <textarea
+                  id="question"
+                  name="question"
+                  placeholder="例如：总结招标文件中的资格要求，并指出原文出处。"
+                  rows="5"
+                  required
+                ></textarea>
+              </div>
+
+              <div class="composer-side">
+                <div class="surface-block inset-block">
+                  <label class="field-label" for="topK">召回片段数</label>
+                  <input id="topK" name="top_k" type="number" min="1" max="8" value="4" />
+                </div>
+
+                <div class="surface-block inset-block tips-block">
+                  <span class="block-title">使用建议</span>
+                  <p class="muted small-text">关闭 RAG 时将直接调用模型；上传或删除文档后会自动刷新索引。</p>
+                </div>
+
+                <div class="actions full-width">
+                  <button type="submit" class="primary-btn wide-btn">发送问题</button>
+                </div>
+              </div>
+            </form>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

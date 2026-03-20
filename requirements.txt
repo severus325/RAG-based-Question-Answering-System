@@ -1,0 +1,10 @@
+fastapi
+faiss-cpu
+jinja2
+numpy
+openai
+pypdf
+python-docx
+python-multipart
+transformers
+uvicorn[standard]
